@@ -1,4 +1,4 @@
-FROM node:20-alpine as build-deps
+FROM node:22-alpine AS build-deps
 WORKDIR /usr/src/app
 
 # Copy package files
@@ -15,8 +15,6 @@ COPY tsconfig.json ./
 COPY tsconfig.app.json ./
 COPY tsconfig.node.json ./
 COPY vite.config.ts ./
-COPY postcss.config.js ./
-COPY tailwind.config.js ./
 COPY index.html ./
 COPY components.json ./
 COPY public/ ./public/
