@@ -17,6 +17,7 @@ import { EvolutionBot } from "@/pages/instance/EvolutionBot";
 import { Flowise } from "@/pages/instance/Flowise";
 import { N8n } from "@/pages/instance/N8n";
 import { Openai } from "@/pages/instance/Openai";
+import { Performance } from "@/pages/instance/Performance";
 import { Proxy } from "@/pages/instance/Proxy";
 import { Rabbitmq } from "@/pages/instance/Rabbitmq";
 import { Settings } from "@/pages/instance/Settings";
@@ -63,6 +64,16 @@ const router = createBrowserRouter([
           <DashboardInstance />
         </InstanceLayout>
       </ProtectedRoute>
+    ),
+  },
+  {
+    // PROTÓTIPO: sem ProtectedRoute de propósito, para abrir sem API conectada.
+    // Ao implementar de verdade, envolver em <ProtectedRoute feature="performance">.
+    path: "/manager/instance/:instanceId/performance",
+    element: (
+      <InstanceLayout>
+        <Performance />
+      </InstanceLayout>
     ),
   },
   {

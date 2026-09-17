@@ -1,5 +1,6 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@evoapi/design-system/collapsible";
 import {
+  Activity,
   ChevronDown,
   CircleHelp,
   Cog,
@@ -135,6 +136,7 @@ function InstanceSidebar() {
   const menus: Menu[] = useMemo(
     () => [
       { id: "dashboard", title: t("sidebar.dashboard"), icon: LayoutDashboard, path: "dashboard" },
+      { id: "performance", title: "Performance", icon: Activity, path: "performance" },
       { id: "chat", title: t("sidebar.chat"), icon: MessageCircle, path: "chat" },
       {
         title: t("sidebar.configurations"),
