@@ -212,7 +212,8 @@
     },
     "message": {
       "invalidServer": "Serveur invalide",
-      "invalidCredentials": "Identifiants invalides"
+      "invalidCredentials": "Identifiants invalides",
+      "serverHint": "vérifiez que l'adresse est celle de l'Evolution API (ex. : http://localhost:8080) et non celle du panneau"
     },
     "button": {
       "login": "Se connecter",

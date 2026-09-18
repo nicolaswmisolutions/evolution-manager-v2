@@ -256,7 +256,8 @@
     },
     "message": {
       "invalidServer": "Invalid server",
-      "invalidCredentials": "Invalid credentials"
+      "invalidCredentials": "Invalid credentials",
+      "serverHint": "check that the address points to the Evolution API (e.g. http://localhost:8080), not to this panel"
     },
     "button": {
       "login": "Login",

@@ -213,7 +213,8 @@
     },
     "message": {
       "invalidServer": "Servidor inválido",
-      "invalidCredentials": "Credenciales inválidas"
+      "invalidCredentials": "Credenciales inválidas",
+      "serverHint": "compruebe que la dirección sea la de la Evolution API (p. ej. http://localhost:8080) y no la del propio panel"
     },
     "button": {
       "login": "Conectar",

@@ -17,7 +17,7 @@ import { verifyCreds } from "@/lib/queries/auth/verifyCreds";
 import { verifyGoServer } from "@/lib/queries/auth/verifyGoServer";
 import { verifyServer } from "@/lib/queries/auth/verifyServer";
 import { checkLicenseStatus, initRegister } from "@/lib/queries/license/license";
-import { DEFAULT_PROVIDER, logout, saveToken } from "@/lib/queries/token";
+import { DEFAULT_PROVIDER, getDefaultServerUrl, logout, saveToken } from "@/lib/queries/token";
 
 const loginSchema = z.object({
   provider: z.enum(["api", "go"]).default(DEFAULT_PROVIDER),
@@ -41,7 +41,7 @@ function Login() {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       provider: DEFAULT_PROVIDER,
-      serverUrl: window.location.protocol + "//" + window.location.host,
+      serverUrl: getDefaultServerUrl(),
       apiKey: "",
     },
   });
@@ -93,16 +93,18 @@ function Login() {
         return;
       }
 
-      const server = await verifyServer({ url: data.serverUrl });
+      const server = await verifyServer({ url: cleanUrl }).catch(() => null);
       if (!server || !server.version) {
         logout();
+        // O caso comum é apontar para o próprio painel em vez da API. Dizer
+        // "servidor inválido" e parar deixa a pessoa sem saber o que corrigir.
         const msg = t("login.message.invalidServer");
         loginForm.setError("serverUrl", { type: "manual", message: msg });
-        setLoginError(msg);
+        setLoginError(`${msg} — ${t("login.message.serverHint")}`);
         return;
       }
 
-      const verify = await verifyCreds({ token: data.apiKey, url: data.serverUrl });
+      const verify = await verifyCreds({ token: data.apiKey, url: cleanUrl });
       if (!verify) {
         const msg = t("login.message.invalidCredentials");
         loginForm.setError("apiKey", { type: "manual", message: msg });
@@ -113,7 +115,7 @@ function Login() {
       saveToken({
         version: server.version,
         clientName: server.clientName,
-        url: data.serverUrl,
+        url: cleanUrl,
         token: data.apiKey,
         provider: "api",
       });
@@ -171,7 +173,7 @@ function Login() {
                 <Input
                   id="login-serverUrl"
                   type="text"
-                  placeholder={window.location.origin}
+                  placeholder="https://evolution.seudominio.com"
                   disabled={submitting}
                   {...loginForm.register("serverUrl")}
                 />

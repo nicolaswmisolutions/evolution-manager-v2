@@ -214,7 +214,8 @@
     },
     "message": {
       "invalidServer": "Servidor inválido",
-      "invalidCredentials": "Credenciais inválidas"
+      "invalidCredentials": "Credenciais inválidas",
+      "serverHint": "confirme se o endereço é o da Evolution API (ex.: http://localhost:8080), e não o do próprio painel"
     },
     "button": {
       "login": "Conectar",
