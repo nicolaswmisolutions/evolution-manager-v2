@@ -123,6 +123,11 @@ function Webhook() {
         headers: parsedHeaders.ok ? parsedHeaders.headers : {},
       };
 
+      // Enquanto o `find` não respondeu, o formulário ainda carrega o default
+      // "{}", que sobrescreveria os headers salvos. Omitir o campo faz o
+      // backend preservá-los: o update do Prisma ignora `undefined`.
+      if (!webhook) delete webhookData.headers;
+
       await createWebhook({
         instanceName: instance.name,
         token: instance.token,
