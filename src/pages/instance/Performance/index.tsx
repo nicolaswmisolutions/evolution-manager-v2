@@ -18,26 +18,45 @@ import { usePerformanceOverview } from "@/lib/queries/performance/usePerformance
 
 const PERIODS: Period[] = ["24h", "7d", "30d"];
 
-const COLOR_SENT = "#189d68";
-const COLOR_RECEIVED = "#3b82f6";
+/**
+ * As cores vêm dos tokens do tema (src/index.css), não de hex fixo, para que
+ * claro e escuro tenham degraus próprios: o azul pálido que funciona no fundo
+ * escuro fica ilegível sobre branco.
+ *
+ * O par abaixo foi validado com o script da skill de dataviz e passa nos cinco
+ * testes nos dois temas. Não troque sem rodar o validador de novo.
+ */
+const COLOR_SENT = "var(--chart-sent)";
+const COLOR_RECEIVED = "var(--chart-received)";
 
-// Rampa ordinal: quanto mais avançado o estado, mais saturado. Falha usa a cor
-// reservada de erro e nunca entra na rampa.
+/**
+ * Rampa ordinal: quanto mais avançado o estado, mais escuro o degrau.
+ *
+ * É deliberadamente a rampa azul, e não a cor das séries — antes, "Lida" e
+ * "Enviadas" usavam o mesmo verde, então a mesma cor queria dizer duas coisas
+ * em gráficos vizinhos. Falha usa a cor de status, reservada, que nunca entra
+ * na rampa.
+ */
 const DELIVERY_COLORS: Record<DeliveryStatus, string> = {
-  READ: "#189d68",
-  DELIVERY_ACK: "#45b98a",
-  SERVER_ACK: "#8ed4b5",
-  PENDING: "#9ca3af",
-  ERROR: "#dc2626",
+  READ: "var(--chart-step-4)",
+  DELIVERY_ACK: "var(--chart-step-3)",
+  SERVER_ACK: "var(--chart-step-2)",
+  PENDING: "var(--chart-step-1)",
+  ERROR: "var(--chart-status-error)",
 };
+
+/** Série única: a cor não carrega identidade, então usa o azul da marca. */
+const COLOR_SINGLE_SERIES = "var(--wmi-blue-500)";
 
 const DELIVERY_ORDER: DeliveryStatus[] = ["READ", "DELIVERY_ACK", "SERVER_ACK", "PENDING", "ERROR"];
 
+// Usa os tokens do tema: o estilo antigo era escuro fixo e ficava ilegível
+// quando o usuário trocava para o tema claro.
 const TOOLTIP_STYLE = {
-  borderRadius: 8,
-  border: "1px solid rgba(127,127,127,.3)",
-  background: "rgba(24,24,27,.95)",
-  color: "#fff",
+  borderRadius: 10,
+  border: "1px solid var(--border)",
+  background: "var(--popover)",
+  color: "var(--popover-foreground)",
 };
 
 function StatTile({ label, value, hint, icon, tone }: { label: string; value: string; hint?: string; icon: React.ReactNode; tone?: "danger" }) {
@@ -50,7 +69,7 @@ function StatTile({ label, value, hint, icon, tone }: { label: string; value: st
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className={tone === "danger" ? "text-3xl font-bold text-red-500" : "text-3xl font-bold"}>{value}</div>
+        <div className={tone === "danger" ? "text-3xl font-bold text-destructive" : "text-3xl font-bold"}>{value}</div>
         {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}
       </CardContent>
     </Card>
@@ -233,7 +252,7 @@ function Performance() {
                   <div className="flex items-center justify-between gap-3 text-sm">
                     <span className="flex items-center gap-2">
                       <span aria-hidden="true" className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: DELIVERY_COLORS[item.status] }} />
-                      <span className={item.status === "ERROR" ? "font-medium text-red-500" : ""}>{t("performance.delivery." + item.status)}</span>
+                      <span className={item.status === "ERROR" ? "font-medium text-destructive" : ""}>{t("performance.delivery." + item.status)}</span>
                     </span>
                     <span className="font-medium">
                       {numberFormat.format(item.count)}
@@ -272,7 +291,7 @@ function Performance() {
                 <Tooltip cursor={{ fill: "rgba(127,127,127,.12)" }} contentStyle={TOOLTIP_STYLE} formatter={(value: number) => [numberFormat.format(value), t("performance.types.tooltip")]} />
                 <Bar dataKey="count" radius={[0, 4, 4, 0]} barSize={16}>
                   {overview.messageTypes.map((entry) => (
-                    <Cell key={entry.type} fill={COLOR_SENT} />
+                    <Cell key={entry.type} fill={COLOR_SINGLE_SERIES} />
                   ))}
                 </Bar>
               </BarChart>

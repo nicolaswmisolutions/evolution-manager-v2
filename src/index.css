@@ -102,3 +102,154 @@
     }
   }
 }
+
+/* ============================================================
+   Camada WMI (Autolac v1.0)
+   ============================================================
+   Sobrescreve os tokens do @evoapi/design-system em vez de
+   reescrever tela por tela: todo componente que já usa
+   bg-background, text-muted-foreground, rounded-lg e afins
+   herda a identidade sem tocar no seu código. Isso mantém o
+   rebase com o upstream viável — o diff fica concentrado aqui.
+
+   Carregado depois do design-system em main.tsx, então vence.
+   ============================================================ */
+
+:root {
+  /* Marca */
+  --wmi-blue-900: #1e3a8a;
+  --wmi-blue-700: #1d4ed8;
+  --wmi-blue-600: #2563eb;
+  --wmi-blue-500: #3b82f6;
+  --wmi-blue-400: #60a5fa;
+  --wmi-blue-300: #93c5fd;
+  --wmi-blue-200: #bfdbfe;
+  --wmi-cyan-600: #0891b2;
+  --wmi-cyan-glow: #00d4ff;
+
+  /* Semânticas — reservadas para estado, nunca para série */
+  --wmi-success: #10b981;
+  --wmi-warning: #f59e0b;
+  --wmi-error: #ef4444;
+
+  /* Botões 14px, cards 18px (radius + 4 no @theme do arquivo) */
+  --radius: 0.875rem;
+
+  /* --- Tema claro --- */
+  --primary: var(--wmi-blue-600);
+  --primary-foreground: #ffffff;
+  --ring: var(--wmi-blue-500);
+  --destructive: var(--wmi-error);
+  --sidebar-primary: var(--wmi-blue-600);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-ring: var(--wmi-blue-500);
+
+  /* Séries dos gráficos. Par categórico validado por
+     scripts/validate_palette.js da skill de dataviz: contra
+     #FFFFFF passa nos cinco testes (ΔE 16,3 em visão normal,
+     14,7 em deuteranopia). Não trocar sem rodar o validador. */
+  --chart-sent: var(--wmi-blue-600);
+  --chart-received: var(--wmi-cyan-600);
+
+  /* Rampa ordinal de entrega: um hue, luminosidade monótona.
+     O modo claro tem degraus próprios porque o azul pálido do
+     modo escuro fica em 1,42:1 contra branco — invisível. */
+  --chart-step-1: var(--wmi-blue-400);
+  --chart-step-2: var(--wmi-blue-500);
+  --chart-step-3: var(--wmi-blue-600);
+  --chart-step-4: var(--wmi-blue-900);
+  --chart-status-error: var(--wmi-error);
+}
+
+.dark {
+  /* Azul-marinho profundo no lugar do cinza neutro do upstream. */
+  --background: #020818;
+  --foreground: #f1f5f9;
+  --card: #0c1221;
+  --card-foreground: #f1f5f9;
+  --popover: #0a1024;
+  --popover-foreground: #f1f5f9;
+  --secondary: #111d40;
+  --secondary-foreground: #f1f5f9;
+  --muted: #0d1b3e;
+  --muted-foreground: #94a3b8;
+  --accent: #111d40;
+  --accent-foreground: #f1f5f9;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.1);
+
+  --sidebar: #050a1f;
+  --sidebar-foreground: #f1f5f9;
+  --sidebar-accent: rgba(37, 99, 235, 0.15);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+
+  /* Validados contra a superfície de card #0c1221. */
+  --chart-step-1: var(--wmi-blue-200);
+  --chart-step-2: var(--wmi-blue-300);
+  --chart-step-3: var(--wmi-blue-400);
+  --chart-step-4: var(--wmi-blue-600);
+}
+
+@layer base {
+  body {
+    font-family: Poppins, Inter, system-ui, sans-serif;
+  }
+}
+
+/* Aurora: a assinatura visual do padrão WMI.
+   Feita em ::before/::after do body para não exigir mudança de
+   JSX, e atrás de tudo (z-index 0 com o conteúdo em position
+   relative). Fica só no tema escuro — sobre fundo claro vira
+   sujeira. */
+.dark body::before,
+.dark body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dark body::before {
+  width: 800px;
+  height: 800px;
+  top: -200px;
+  left: -200px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, transparent 70%);
+  animation: wmi-aurora-1 20s ease-in-out infinite;
+}
+
+.dark body::after {
+  width: 600px;
+  height: 600px;
+  bottom: -100px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 70%);
+  animation: wmi-aurora-2 25s ease-in-out infinite;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes wmi-aurora-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(100px, 80px) scale(1.1); }
+  66% { transform: translate(-60px, 120px) scale(0.9); }
+}
+
+@keyframes wmi-aurora-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-80px, -60px) scale(1.15); }
+  66% { transform: translate(60px, -100px) scale(0.95); }
+}
+
+/* Quem pediu menos movimento não recebe aurora animada. */
+@media (prefers-reduced-motion: reduce) {
+  .dark body::before,
+  .dark body::after {
+    animation: none;
+  }
+}
