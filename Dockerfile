@@ -19,8 +19,15 @@ COPY index.html ./
 COPY components.json ./
 COPY public/ ./public/
 
+# Modo demo: "true" embute o mock da API no bundle, para rodar o manager sem
+# backend. Precisa ser decidido aqui, no build, porque o Vite substitui
+# import.meta.env em tempo de compilação — um build sem este argumento não tem
+# como virar demo depois.
+ARG VITE_DEMO_MODE=false
+ENV VITE_DEMO_MODE=${VITE_DEMO_MODE}
+
 # Build the application
-RUN echo "Iniciando build..." && \
+RUN echo "Iniciando build (VITE_DEMO_MODE=${VITE_DEMO_MODE})..." && \
     npm run build && \
     echo "Build concluído."
 

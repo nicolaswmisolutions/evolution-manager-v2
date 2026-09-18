@@ -10,9 +10,13 @@ import { RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import { ThemeProvider } from "./components/theme-provider.tsx";
+import { installDemoAdapter } from "./lib/demo/adapter.ts";
 import { queryClient } from "./lib/queries/react-query.ts";
 import router from "./routes/index.tsx";
 import i18n from "./translate/i18n";
+
+// No-op fora do modo demo. Precisa rodar antes da primeira requisição.
+installDemoAdapter();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

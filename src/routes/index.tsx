@@ -67,13 +67,13 @@ const router = createBrowserRouter([
     ),
   },
   {
-    // PROTÓTIPO: sem ProtectedRoute de propósito, para abrir sem API conectada.
-    // Ao implementar de verdade, envolver em <ProtectedRoute feature="performance">.
     path: "/manager/instance/:instanceId/performance",
     element: (
-      <InstanceLayout>
-        <Performance />
-      </InstanceLayout>
+      <ProtectedRoute feature="performance">
+        <InstanceLayout>
+          <Performance />
+        </InstanceLayout>
+      </ProtectedRoute>
     ),
   },
   {
