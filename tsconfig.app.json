@@ -23,6 +23,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    /* `globals: true` no vitest expõe describe/it/expect em runtime; isto os
+       torna visíveis também para o tsc. */
+    "types": ["vitest/globals"],
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

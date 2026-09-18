@@ -244,6 +244,49 @@ const routes: Route[] = [
     },
   },
 
+  // --- Mensagens ---------------------------------------------------------
+  {
+    // Alimenta a tela de Performance no modo demo. Os números são derivados
+    // do nome da instância e da janela pedida, de forma determinística: a
+    // mesma janela devolve sempre o mesmo valor, senão cada refetch redesenharia
+    // o gráfico e o layout ficaria impossível de avaliar.
+    method: "post",
+    pattern: /^\/chat\/findMessages\/([^/]+)$/,
+    handle: (request, match) => {
+      const name = decodeURIComponent(match[1]);
+      if (!findInstance(name)) return notFound(`Instance "${name}" not found`);
+
+      const body = (request.body ?? {}) as {
+        where?: { messageTimestamp?: { gte?: string; lte?: string }; messageType?: string; key?: { fromMe?: boolean } };
+        offset?: number;
+      };
+
+      const from = Date.parse(body.where?.messageTimestamp?.gte ?? "") || 0;
+      const to = Date.parse(body.where?.messageTimestamp?.lte ?? "") || 0;
+      const hours = Math.max((to - from) / 3_600_000, 1);
+
+      // Hash simples e estável da janela + filtros.
+      const seedText = `${name}|${from}|${body.where?.messageType ?? ""}|${body.where?.key?.fromMe ? "1" : "0"}`;
+      let seed = 0;
+      for (let i = 0; i < seedText.length; i++) seed = (seed * 31 + seedText.charCodeAt(i)) >>> 0;
+
+      let total = Math.floor((seed % 40) * Math.min(hours, 24));
+      if (body.where?.messageType) total = Math.floor(total / 4);
+      // "Enviadas" tem que ser sempre menor que o total, senão a subtração que
+      // a tela faz para achar "recebidas" daria negativo.
+      if (body.where?.key?.fromMe) total = Math.floor(total * 0.45);
+
+      const wanted = Math.min(body.offset ?? 1, total);
+      const records = Array.from({ length: wanted }, (_, i) => ({
+        id: `${seed}-${i}`,
+        messageType: body.where?.messageType ?? "conversation",
+        MessageUpdate: [{ status: ["READ", "DELIVERY_ACK", "SERVER_ACK", "ERROR"][(seed + i) % 4] }],
+      }));
+
+      return ok({ messages: { total, pages: 1, currentPage: 1, records } });
+    },
+  },
+
   // --- Webhook -----------------------------------------------------------
   {
     method: "get",

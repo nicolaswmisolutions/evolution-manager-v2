@@ -33,6 +33,10 @@ export type Instance = {
   businessId: string;
   token: string;
   clientName: string;
+  // A API devolve estes campos (o findMany de instanceInfo não usa select),
+  // mas o tipo não os declarava.
+  disconnectionAt?: string | null;
+  disconnectionReasonCode?: number | null;
   createdAt: string;
   updatedAt: string;
   Setting: Settings;

@@ -1,13 +1,10 @@
-import { IS_DEMO } from "@/lib/demo/config";
 import { getProvider, Provider } from "@/lib/queries/token";
 
 type ProviderSupport = Record<Provider, boolean>;
 
 export const FEATURES = {
   dashboard: { api: true, go: true },
-  // A tela de Performance ainda mostra dados fictícios, então só aparece em
-  // modo demo. Liberar quando ela passar a ler do backend.
-  performance: { api: IS_DEMO, go: false },
+  performance: { api: true, go: false },
   chat: { api: true, go: false },
   settings: { api: true, go: true },
   proxy: { api: true, go: true },

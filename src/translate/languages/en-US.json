@@ -219,7 +219,8 @@
     "flowise": "Flowise",
     "documentation": "Documentation",
     "postman": "Postman",
-    "discord": "Discord"
+    "discord": "Discord",
+    "performance": "Performance"
   },
   "toast": {
     "instance": {
@@ -1706,5 +1707,56 @@
   "table": {
     "loading": "Loading...",
     "noResults": "No results found!"
+  },
+  "performance": {
+    "title": "Performance",
+    "subtitle": "Diagnostics for {{name}}",
+    "period": {
+      "24h": "24 hours",
+      "7d": "7 days",
+      "30d": "30 days"
+    },
+    "totals": {
+      "sent": "Sent",
+      "received": "Received",
+      "total": "Total messages",
+      "failureRate": "Failure rate",
+      "share": "{{percent}}% of volume",
+      "failureHint": "{{count}} of {{total}} in the sample"
+    },
+    "volume": {
+      "title": "Message volume"
+    },
+    "connection": {
+      "title": "Connection",
+      "status": "State",
+      "lastDisconnect": "Last disconnection",
+      "reason": "Reason code",
+      "never": "None recorded",
+      "historyUnavailable": "Disconnection history unavailable: the API keeps only the last one."
+    },
+    "delivery": {
+      "title": "Delivery and read",
+      "sampleNotice": "Sample of the last {{count}} sent messages (max {{max}}) — not the rate for the whole period.",
+      "empty": "No messages sent in the period",
+      "PENDING": "Pending",
+      "SERVER_ACK": "On server",
+      "DELIVERY_ACK": "Delivered",
+      "READ": "Read",
+      "ERROR": "Failed"
+    },
+    "types": {
+      "title": "Message types",
+      "tooltip": "Messages",
+      "empty": "No messages in the period"
+    },
+    "degraded": {
+      "series": "Some time windows could not be loaded — the chart is incomplete",
+      "messageTypes": "Some message types could not be loaded",
+      "delivery": "Delivery sample unavailable"
+    },
+    "loadTime": "Loaded in {{ms}} ms",
+    "error": "Could not load the data",
+    "retry": "Try again"
   }
 }

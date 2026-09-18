@@ -176,7 +176,8 @@
     "flowise": "Flowise",
     "documentation": "Documentação",
     "postman": "Postman",
-    "discord": "Discord"
+    "discord": "Discord",
+    "performance": "Performance"
   },
   "toast": {
     "instance": {
@@ -1688,5 +1689,56 @@
   "table": {
     "loading": "Carregando...",
     "noResults": "Nenhum resultado encontrado!"
+  },
+  "performance": {
+    "title": "Performance",
+    "subtitle": "Diagnóstico de {{name}}",
+    "period": {
+      "24h": "24 horas",
+      "7d": "7 dias",
+      "30d": "30 dias"
+    },
+    "totals": {
+      "sent": "Enviadas",
+      "received": "Recebidas",
+      "total": "Total de mensagens",
+      "failureRate": "Taxa de falha",
+      "share": "{{percent}}% do volume",
+      "failureHint": "{{count}} de {{total}} na amostra"
+    },
+    "volume": {
+      "title": "Volume de mensagens"
+    },
+    "connection": {
+      "title": "Conexão",
+      "status": "Estado",
+      "lastDisconnect": "Última desconexão",
+      "reason": "Código do motivo",
+      "never": "Nenhuma registrada",
+      "historyUnavailable": "Histórico de quedas indisponível: a API guarda apenas a última desconexão."
+    },
+    "delivery": {
+      "title": "Entrega e leitura",
+      "sampleNotice": "Amostra das últimas {{count}} mensagens enviadas (máx. {{max}}) — não é a taxa do período inteiro.",
+      "empty": "Nenhuma mensagem enviada no período",
+      "PENDING": "Pendente",
+      "SERVER_ACK": "No servidor",
+      "DELIVERY_ACK": "Entregue",
+      "READ": "Lida",
+      "ERROR": "Falha"
+    },
+    "types": {
+      "title": "Tipos de mensagem",
+      "tooltip": "Mensagens",
+      "empty": "Nenhuma mensagem no período"
+    },
+    "degraded": {
+      "series": "Parte das janelas não pôde ser carregada — o gráfico está incompleto",
+      "messageTypes": "Parte dos tipos não pôde ser carregada",
+      "delivery": "Amostra de entrega indisponível"
+    },
+    "loadTime": "Carregado em {{ms}} ms",
+    "error": "Não foi possível carregar os dados",
+    "retry": "Tentar novamente"
   }
 }

@@ -175,7 +175,8 @@
     "flowise": "Flowise",
     "documentation": "Documentation",
     "postman": "Postman",
-    "discord": "Discord"
+    "discord": "Discord",
+    "performance": "Performance"
   },
   "toast": {
     "instance": {
@@ -1687,5 +1688,56 @@
   "table": {
     "loading": "Chargement...",
     "noResults": "Aucun résultat trouvé !"
+  },
+  "performance": {
+    "title": "Performance",
+    "subtitle": "Diagnostic de {{name}}",
+    "period": {
+      "24h": "24 heures",
+      "7d": "7 jours",
+      "30d": "30 jours"
+    },
+    "totals": {
+      "sent": "Envoyés",
+      "received": "Reçus",
+      "total": "Total des messages",
+      "failureRate": "Taux d'échec",
+      "share": "{{percent}}% du volume",
+      "failureHint": "{{count}} sur {{total}} dans l'échantillon"
+    },
+    "volume": {
+      "title": "Volume de messages"
+    },
+    "connection": {
+      "title": "Connexion",
+      "status": "État",
+      "lastDisconnect": "Dernière déconnexion",
+      "reason": "Code du motif",
+      "never": "Aucune enregistrée",
+      "historyUnavailable": "Historique des coupures indisponible : l'API ne garde que la dernière."
+    },
+    "delivery": {
+      "title": "Livraison et lecture",
+      "sampleNotice": "Échantillon des {{count}} derniers messages envoyés (max {{max}}) — ce n'est pas le taux de toute la période.",
+      "empty": "Aucun message envoyé sur la période",
+      "PENDING": "En attente",
+      "SERVER_ACK": "Sur le serveur",
+      "DELIVERY_ACK": "Livré",
+      "READ": "Lu",
+      "ERROR": "Échec"
+    },
+    "types": {
+      "title": "Types de message",
+      "tooltip": "Messages",
+      "empty": "Aucun message sur la période"
+    },
+    "degraded": {
+      "series": "Certaines fenêtres n'ont pas pu être chargées — le graphique est incomplet",
+      "messageTypes": "Certains types n'ont pas pu être chargés",
+      "delivery": "Échantillon de livraison indisponible"
+    },
+    "loadTime": "Chargé en {{ms}} ms",
+    "error": "Impossible de charger les données",
+    "retry": "Réessayer"
   }
 }
