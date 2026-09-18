@@ -363,6 +363,10 @@
         "label": "Webhook Base64",
         "description": "Enviar dados de mídia em base64 no webhook"
       },
+      "headers": {
+        "label": "Headers personalizados",
+        "description": "Cabeçalhos HTTP enviados em cada requisição do webhook, em JSON"
+      },
       "events": {
         "label": "Eventos"
       }

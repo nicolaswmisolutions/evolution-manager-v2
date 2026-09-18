@@ -8,8 +8,9 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 
 import { Button } from "@evoapi/design-system/button";
-import { Form, FormControl, FormField, FormInput, FormItem, FormLabel, FormSwitch } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormInput, FormItem, FormLabel, FormMessage, FormSwitch } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@evoapi/design-system/switch";
 
 import { useInstance } from "@/contexts/InstanceContext";
@@ -18,6 +19,7 @@ import { getProvider } from "@/lib/queries/token";
 import { useFetchWebhook } from "@/lib/queries/webhook/fetchWebhook";
 import { useManageWebhook } from "@/lib/queries/webhook/manageWebhook";
 import { cn } from "@/lib/utils";
+import { headersToJson, parseHeadersJson } from "@/lib/webhook/headers";
 
 import { Webhook as WebhookType } from "@/types/evolution.types";
 
@@ -27,6 +29,12 @@ const FormSchema = z.object({
   events: z.array(z.string()),
   base64: z.boolean(),
   byEvents: z.boolean(),
+  // Editado como texto JSON e convertido na submissão, para que um JSON
+  // malformado vire erro de campo em vez de header silenciosamente perdido.
+  headers: z.string().superRefine((value, ctx) => {
+    const result = parseHeadersJson(value);
+    if (!result.ok) ctx.addIssue({ code: z.ZodIssueCode.custom, message: result.error });
+  }),
 });
 
 type FormSchemaType = z.infer<typeof FormSchema>;
@@ -82,6 +90,7 @@ function Webhook() {
       events: [],
       base64: false,
       byEvents: false,
+      headers: "{}",
     },
   });
 
@@ -93,6 +102,7 @@ function Webhook() {
         events: webhook.events,
         base64: webhook.webhookBase64,
         byEvents: webhook.webhookByEvents,
+        headers: headersToJson(webhook.headers),
       });
     }
   }, [webhook]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -101,12 +111,16 @@ function Webhook() {
     if (!instance) return;
     setLoading(true);
     try {
+      // O schema já recusou JSON inválido, então aqui só resta o caso válido.
+      const parsedHeaders = parseHeadersJson(data.headers);
+
       const webhookData: WebhookType = {
         enabled: data.enabled,
         url: data.url,
         events: data.events,
         base64: data.base64,
         byEvents: data.byEvents,
+        headers: parsedHeaders.ok ? parsedHeaders.headers : {},
       };
 
       await createWebhook({
@@ -147,6 +161,22 @@ function Webhook() {
               </FormInput>
               {!isGo && <FormSwitch name="byEvents" label={t("webhook.form.byEvents.label")} className="w-full justify-between" helper={t("webhook.form.byEvents.description")} />}
               {!isGo && <FormSwitch name="base64" label={t("webhook.form.base64.label")} className="w-full justify-between" helper={t("webhook.form.base64.description")} />}
+              {!isGo && (
+                <FormField
+                  control={form.control}
+                  name="headers"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="text-base">{t("webhook.form.headers.label")}</FormLabel>
+                      <p className="text-sm text-muted-foreground">{t("webhook.form.headers.description")}</p>
+                      <FormControl>
+                        <Textarea {...field} rows={6} spellCheck={false} className="font-mono text-sm" placeholder={'{\n  "Authorization": "Bearer ..."\n}'} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
               <div className="mb-4 flex justify-between">
                 <Button variant="outline" type="button" onClick={handleSelectAll}>
                   {t("button.markAll")}

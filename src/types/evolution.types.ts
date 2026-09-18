@@ -339,6 +339,8 @@ export type Webhook = {
   events: string[];
   base64: boolean;
   byEvents: boolean;
+  /** Cabeçalhos HTTP enviados em cada requisição do webhook. */
+  headers?: Record<string, string>;
 };
 
 export type Websocket = {
