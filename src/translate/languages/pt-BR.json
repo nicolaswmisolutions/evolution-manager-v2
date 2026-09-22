@@ -177,7 +177,8 @@
     "documentation": "Documentação",
     "postman": "Postman",
     "discord": "Discord",
-    "performance": "Performance"
+    "performance": "Performance",
+    "chat": "Conversas"
   },
   "toast": {
     "instance": {
@@ -210,17 +211,21 @@
     "subtitle": "Digite suas credenciais para acessar o sistema",
     "form": {
       "serverUrl": "URL do Servidor",
-      "apiKey": "Chave de API Global"
+      "apiKey": "Chave de API Global",
+      "apiKeyPlaceholder": "Sua chave de API"
     },
     "message": {
       "invalidServer": "Servidor inválido",
       "invalidCredentials": "Credenciais inválidas",
-      "serverHint": "confirme se o endereço é o da Evolution API (ex.: http://localhost:8080), e não o do próprio painel"
+      "serverHint": "confirme se o endereço é o da Evolution API (ex.: http://localhost:8080), e não o do próprio painel",
+      "invalidUrl": "URL inválida",
+      "apiKeyRequired": "A chave de API é obrigatória"
     },
     "button": {
       "login": "Conectar",
       "connecting": "Conectando..."
-    }
+    },
+    "error": "Erro"
   },
   "instance": {
     "modal": {
@@ -1576,6 +1581,23 @@
     "date": {
       "today": "Hoje",
       "yesterday": "Ontem"
+    },
+    "media": {
+      "attach": "Anexar arquivo",
+      "document": "Documento",
+      "photosAndVideos": "Fotos e vídeos",
+      "errors": {
+        "audioSize": "O áudio precisa ter menos de 16 MB",
+        "documentSize": "O documento precisa ter menos de 100 MB",
+        "imageSize": "A imagem precisa ter menos de 5 MB",
+        "videoSize": "O vídeo precisa ter menos de 16 MB",
+        "unsupportedType": "Tipo de arquivo não suportado"
+      },
+      "selectedMedia": {
+        "file": "Arquivo",
+        "imageAlt": "Imagem selecionada",
+        "selectedFile": "Arquivo selecionado"
+      }
     }
   },
   "common": {
@@ -1741,5 +1763,12 @@
     "loadTime": "Carregado em {{ms}} ms",
     "error": "Não foi possível carregar os dados",
     "retry": "Tentar novamente"
+  },
+  "embedChat": {
+    "errors": {
+      "missingParams": "Token, instanceName e apiUrl são obrigatórios",
+      "notFound": "Instância não encontrada",
+      "validationFailed": "Erro ao validar o token ou buscar a instância"
+    }
   }
 }

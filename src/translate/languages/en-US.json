@@ -252,18 +252,22 @@
     "description": "Please enter your credentials to continue",
     "form": {
       "serverUrl": "Server URL",
-      "apiKey": "API Key Global"
+      "apiKey": "API Key Global",
+      "apiKeyPlaceholder": "Your API key"
     },
     "message": {
       "invalidServer": "Invalid server",
       "invalidCredentials": "Invalid credentials",
-      "serverHint": "check that the address points to the Evolution API (e.g. http://localhost:8080), not to this panel"
+      "serverHint": "check that the address points to the Evolution API (e.g. http://localhost:8080), not to this panel",
+      "invalidUrl": "Invalid URL",
+      "apiKeyRequired": "API key is required"
     },
     "button": {
       "login": "Login",
       "connecting": "Connecting..."
     },
-    "subtitle": "Enter your credentials to access the system"
+    "subtitle": "Enter your credentials to access the system",
+    "error": "Error"
   },
   "instance": {
     "modal": {
@@ -1759,5 +1763,12 @@
     "loadTime": "Loaded in {{ms}} ms",
     "error": "Could not load the data",
     "retry": "Try again"
+  },
+  "embedChat": {
+    "errors": {
+      "missingParams": "Token, instanceName and apiUrl are required",
+      "notFound": "Instance not found",
+      "validationFailed": "Could not validate the token or fetch the instance"
+    }
   }
 }

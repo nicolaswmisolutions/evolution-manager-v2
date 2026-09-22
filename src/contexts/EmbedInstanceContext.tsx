@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 import { TOKEN_ID } from "@/lib/queries/token";
@@ -19,6 +20,7 @@ const EmbedInstanceContext = createContext<EmbedInstanceContextType>({
 });
 
 export function EmbedInstanceProvider({ children }: { children: React.ReactNode }) {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const [instance, setInstance] = useState<Instance | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +33,7 @@ export function EmbedInstanceProvider({ children }: { children: React.ReactNode 
       const apiUrl = searchParams.get("apiUrl");
 
       if (!token || !instanceName || !apiUrl) {
-        setError("Token, instanceName e apiUrl são obrigatórios");
+        setError(t("embedChat.errors.missingParams"));
         setIsLoading(false);
         return;
       }
@@ -54,10 +56,10 @@ export function EmbedInstanceProvider({ children }: { children: React.ReactNode 
         if (data && Array.isArray(data) && data.length > 0) {
           setInstance(data[0]); // Get the first (and only) instance
         } else {
-          setError("Instância não encontrada");
+          setError(t("embedChat.errors.notFound"));
         }
       } catch (err) {
-        setError("Erro ao validar token ou buscar instância");
+        setError(t("embedChat.errors.validationFailed"));
       } finally {
         setIsLoading(false);
       }

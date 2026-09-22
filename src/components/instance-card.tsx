@@ -72,7 +72,7 @@ export function InstanceCard({ instance, isDeleting, onDelete }: InstanceCardPro
         <div className="space-y-1 px-4 py-3 text-xs text-sidebar-foreground/70">
           {instance.ownerJid && (
             <div className="flex items-center justify-between">
-              <span>{t("dashboard.card.phone", { defaultValue: "Número" })}</span>
+              <span>{t("dashboard.card.phone")}</span>
               <span className="ml-2 truncate font-mono">{instance.ownerJid.split("@")[0]}</span>
             </div>
           )}

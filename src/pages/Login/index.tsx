@@ -4,10 +4,11 @@ import { Button } from "@evoapi/design-system/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@evoapi/design-system/label";
 import { AlertCircle, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import type { TFunction } from "i18next";
 import { z } from "zod";
 
 import { Form, FormSelect } from "@/components/ui/form";
@@ -19,12 +20,19 @@ import { verifyServer } from "@/lib/queries/auth/verifyServer";
 import { checkLicenseStatus, initRegister } from "@/lib/queries/license/license";
 import { DEFAULT_PROVIDER, getDefaultServerUrl, logout, saveToken } from "@/lib/queries/token";
 
-const loginSchema = z.object({
-  provider: z.enum(["api", "go"]).default(DEFAULT_PROVIDER),
-  serverUrl: z.string({ required_error: "serverUrl is required" }).url("URL inválida"),
-  apiKey: z.string({ required_error: "ApiKey is required" }).min(1, "API Key é obrigatória"),
-});
-type LoginSchema = z.infer<typeof loginSchema>;
+/**
+ * Construído dentro do componente, e não no módulo, porque as mensagens
+ * precisam do idioma atual. O zod 3 só aceita string aqui — passar uma função
+ * é descartado em silêncio e vira o texto padrão dele, em inglês.
+ */
+const buildLoginSchema = (t: TFunction) =>
+  z.object({
+    provider: z.enum(["api", "go"]).default(DEFAULT_PROVIDER),
+    serverUrl: z.string({ required_error: "serverUrl is required" }).url(t("login.message.invalidUrl")),
+    apiKey: z.string({ required_error: "ApiKey is required" }).min(1, t("login.message.apiKeyRequired")),
+  });
+
+type LoginSchema = z.infer<ReturnType<typeof buildLoginSchema>>;
 
 function Login() {
   const { t } = useTranslation();
@@ -36,6 +44,8 @@ function Login() {
     theme === "dark"
       ? "https://evolution-api.com/files/evo/evolution-logo-white.svg"
       : "https://evolution-api.com/files/evo/evolution-logo.svg";
+
+  const loginSchema = useMemo(() => buildLoginSchema(t), [t]);
 
   const loginForm = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
@@ -139,14 +149,14 @@ function Login() {
           <div className="mb-6 space-y-2">
             <h2 className="text-2xl font-bold">{t("login.title")}</h2>
             <p className="text-sm text-muted-foreground">
-              {t("login.subtitle", { defaultValue: "Digite suas credenciais para acessar o sistema" })}
+              {t("login.subtitle")}
             </p>
           </div>
 
           {loginError && (
             <Alert variant="destructive" className="mb-4">
               <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Erro</AlertTitle>
+              <AlertTitle>{t("login.error")}</AlertTitle>
               <AlertDescription>{loginError}</AlertDescription>
             </Alert>
           )}
@@ -187,7 +197,7 @@ function Login() {
                 <Input
                   id="login-apiKey"
                   type="password"
-                  placeholder="Sua chave de API"
+                  placeholder={t("login.form.apiKeyPlaceholder")}
                   disabled={submitting}
                   {...loginForm.register("apiKey")}
                 />
@@ -198,7 +208,7 @@ function Login() {
                 {submitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {t("login.button.connecting", { defaultValue: "Conectando..." })}
+                    {t("login.button.connecting")}
                   </>
                 ) : (
                   t("login.button.login")

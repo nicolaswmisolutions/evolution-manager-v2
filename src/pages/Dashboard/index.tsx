@@ -58,7 +58,7 @@ function Dashboard() {
       await deleteInstance(name);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await resetTable();
-      toast.success(t("toast.instance.deleted", { defaultValue: "Instância removida com sucesso!" }));
+      toast.success(t("toast.instance.deleted"));
       closeDeleteModal();
     } catch (error: unknown) {
       console.error("Error instance delete:", error);
@@ -93,7 +93,7 @@ function Dashboard() {
     <div className="flex h-full flex-col">
       <BaseHeader
         title={t("dashboard.title")}
-        subtitle={t("dashboard.subtitle", { defaultValue: "Gerencie suas instâncias WhatsApp" })}
+        subtitle={t("dashboard.subtitle")}
         searchValue={nameSearch}
         onSearchChange={setNameSearch}
         searchPlaceholder={t("dashboard.search")}
@@ -104,7 +104,7 @@ function Dashboard() {
         }}
         secondaryActions={[
           {
-            label: t("button.refresh", { defaultValue: "Atualizar" }),
+            label: t("button.refresh"),
             icon: <RefreshCw className="h-4 w-4" />,
             onClick: resetTable,
           },
@@ -146,9 +146,9 @@ function Dashboard() {
           <div className="flex min-h-[40vh] flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-sidebar-border p-8 text-center">
             <Layers className="h-10 w-10 text-muted-foreground" />
             <div>
-              <h3 className="text-lg font-semibold">{t("dashboard.empty.title", { defaultValue: "Nenhuma instância encontrada" })}</h3>
+              <h3 className="text-lg font-semibold">{t("dashboard.empty.title")}</h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                {t("dashboard.empty.description", { defaultValue: "Crie sua primeira instância para começar" })}
+                {t("dashboard.empty.description")}
               </p>
             </div>
             <Button onClick={() => setCreateOpen(true)} className="mt-2">
@@ -186,7 +186,7 @@ function Dashboard() {
 
           <div className="space-y-2">
             <label className="text-sm font-medium">
-              {t("modal.delete.confirm", { defaultValue: "Digite o nome da instância para confirmar:" })}
+              {t("modal.delete.confirm")}
             </label>
             <Input
               placeholder={deleteTarget?.name}

@@ -109,22 +109,22 @@ function DashboardInstance() {
     <div className="flex flex-col">
       <BaseHeader
         title={instance.name}
-        subtitle={instance.profileName || t("instance.dashboard.subtitle", { defaultValue: "Gerencie sua instância" })}
+        subtitle={instance.profileName || t("instance.dashboard.subtitle")}
         secondaryActions={[
           {
-            label: t("button.refresh", { defaultValue: "Atualizar" }),
+            label: t("button.refresh"),
             icon: <RefreshCw className="h-4 w-4" />,
             onClick: handleReload,
           },
           {
-            label: t("instance.dashboard.button.restart", { defaultValue: "Reiniciar" }),
+            label: t("instance.dashboard.button.restart"),
             icon: <Power className="h-4 w-4" />,
             onClick: () => handleRestart(instance.name),
           },
           ...(connected
             ? [
                 {
-                  label: t("instance.dashboard.button.disconnect", { defaultValue: "Desconectar" }),
+                  label: t("instance.dashboard.button.disconnect"),
                   icon: <LogOut className="h-4 w-4" />,
                   onClick: () => handleLogout(instance.name),
                   variant: "destructive" as const,
@@ -134,7 +134,7 @@ function DashboardInstance() {
           ...(isGo && connected
             ? [
                 {
-                  label: t("instance.dashboard.button.sendMessage", { defaultValue: "Enviar mensagem" }),
+                  label: t("instance.dashboard.button.sendMessage"),
                   icon: <Send className="h-4 w-4" />,
                   onClick: () => setGoSendOpen(true),
                   variant: "default" as const,

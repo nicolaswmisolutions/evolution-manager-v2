@@ -146,7 +146,8 @@
       "label": "Langue",
       "english": "Anglais",
       "portuguese": "Portugais",
-      "french": "Français"
+      "french": "Français",
+      "spanish": "Espagnol"
     },
     "logout": {
       "action": "Déconnexion",
@@ -176,7 +177,8 @@
     "documentation": "Documentation",
     "postman": "Postman",
     "discord": "Discord",
-    "performance": "Performance"
+    "performance": "Performance",
+    "chat": "Chat"
   },
   "toast": {
     "instance": {
@@ -208,18 +210,22 @@
     "description": "Veuillez vous connecter pour continuer",
     "form": {
       "serverUrl": "URL du Serveur",
-      "apiKey": "Clé API Globale"
+      "apiKey": "Clé API Globale",
+      "apiKeyPlaceholder": "Votre clé d'API"
     },
     "message": {
       "invalidServer": "Serveur invalide",
       "invalidCredentials": "Identifiants invalides",
-      "serverHint": "vérifiez que l'adresse est celle de l'Evolution API (ex. : http://localhost:8080) et non celle du panneau"
+      "serverHint": "vérifiez que l'adresse est celle de l'Evolution API (ex. : http://localhost:8080) et non celle du panneau",
+      "invalidUrl": "URL invalide",
+      "apiKeyRequired": "La clé d'API est obligatoire"
     },
     "button": {
       "login": "Se connecter",
       "connecting": "Connexion..."
     },
-    "subtitle": "Entrez vos identifiants pour accéder au système"
+    "subtitle": "Entrez vos identifiants pour accéder au système",
+    "error": "Erreur"
   },
   "instance": {
     "modal": {
@@ -1575,6 +1581,23 @@
     "date": {
       "today": "Aujourd'hui",
       "yesterday": "Hier"
+    },
+    "media": {
+      "attach": "Joindre un fichier",
+      "document": "Document",
+      "photosAndVideos": "Photos et vidéos",
+      "errors": {
+        "audioSize": "L'audio doit faire moins de 16 Mo",
+        "documentSize": "Le document doit faire moins de 100 Mo",
+        "imageSize": "L'image doit faire moins de 5 Mo",
+        "videoSize": "La vidéo doit faire moins de 16 Mo",
+        "unsupportedType": "Type de fichier non pris en charge"
+      },
+      "selectedMedia": {
+        "file": "Fichier",
+        "imageAlt": "Image sélectionnée",
+        "selectedFile": "Fichier sélectionné"
+      }
     }
   },
   "common": {
@@ -1740,5 +1763,12 @@
     "loadTime": "Chargé en {{ms}} ms",
     "error": "Impossible de charger les données",
     "retry": "Réessayer"
+  },
+  "embedChat": {
+    "errors": {
+      "missingParams": "Token, instanceName et apiUrl sont obligatoires",
+      "notFound": "Instance introuvable",
+      "validationFailed": "Impossible de valider le token ou de récupérer l'instance"
+    }
   }
 }

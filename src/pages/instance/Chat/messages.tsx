@@ -41,11 +41,11 @@ const formatDateSeparator = (date: Date, t: TFn, locale: string): string => {
   const messageDate = new Date(date);
 
   if (messageDate.toDateString() === today.toDateString()) {
-    return t("chat.date.today", { defaultValue: "Hoje" });
+    return t("chat.date.today");
   }
 
   if (messageDate.toDateString() === yesterday.toDateString()) {
-    return t("chat.date.yesterday", { defaultValue: "Ontem" });
+    return t("chat.date.yesterday");
   }
 
   const daysDiff = Math.floor((today.getTime() - messageDate.getTime()) / (1000 * 60 * 60 * 24));
@@ -655,7 +655,7 @@ function Messages({ textareaRef, handleTextareaChange, textareaHeight, lastMessa
               {instance && <MediaOptions instance={instance} setSelectedMedia={setSelectedMedia} />}
             </div>
             <Textarea
-              placeholder={t("chat.input.placeholder", { defaultValue: "Digite uma mensagem..." })}
+              placeholder={t("chat.input.placeholder")}
               name="message"
               id="message"
               rows={1}
